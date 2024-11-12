@@ -6,21 +6,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.example.valoranttfg.MainActivity
 import com.example.valoranttfg.model.Agent
-import coil.compose.rememberImagePainter
-
 import com.example.valoranttfg.service.recopilarAgentes
 import kotlinx.coroutines.launch
 
@@ -45,6 +40,7 @@ import kotlinx.coroutines.launch
 
     }
 
+    @OptIn(ExperimentalCoilApi::class)
     @Composable
     fun agentItem(agent: Agent){
         Column(modifier = Modifier.padding(16.dp)) {
@@ -53,7 +49,7 @@ import kotlinx.coroutines.launch
             Image(
                 painter = rememberImagePainter(agent.displayIcon),
                 contentDescription = null,
-                modifier = Modifier.padding(top= 8.dp),
+                modifier = Modifier.padding(top = 8.dp),
                 contentScale = ContentScale.Crop
             )
         }
