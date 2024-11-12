@@ -10,7 +10,7 @@ import okhttp3.Request
 
 suspend fun recopilarAgentes(): List<Agent>? {
     var client = OkHttpClient()
-    var request = Request.Builder().url("https://valorant-api.com/v1/agents/").build()
+    var request = Request.Builder().url("https://valorant-api.com/v1/agents?language=es-ES").build()
 
     return withContext(Dispatchers.IO) {
         val response = client.newCall(request).execute()

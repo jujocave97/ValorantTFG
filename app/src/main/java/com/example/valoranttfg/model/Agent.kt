@@ -13,7 +13,8 @@ data class Agent(
     @SerializedName("abilities") val abilities: List<Ability>,
     @SerializedName("fullPortrait") val fullPortrait: String,
     @SerializedName("displayIcon") val displayIcon: String,
-    @SerializedName("role") val role: Role
+    @SerializedName("role") val role: Role,
+    @SerializedName("isPlayableCharacter") val isPlayableCharacter: Boolean
 )
 
 data class Ability(
