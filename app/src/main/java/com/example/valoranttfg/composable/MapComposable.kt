@@ -14,7 +14,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -23,48 +28,47 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.valoranttfg.MainActivity
 import com.example.valoranttfg.model.Agent
+import com.example.valoranttfg.model.Mapv
 import com.example.valoranttfg.service.recopilarAgentes
+import com.example.valoranttfg.service.recopilarMapas
 import kotlinx.coroutines.launch
 
 @Composable
-fun AgentListScreen(){
-    var agents by remember { mutableStateOf<List<Agent>?>(null)}
+fun MapListScreen() {
+    var maps by remember { mutableStateOf<List<Mapv>?>(null) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         (context as MainActivity).lifecycleScope.launch{
-            agents = recopilarAgentes()
+            maps = recopilarMapas()
         }
     }
 
-    agents?.let {
-        val playableAgents = it.filter { agent -> agent.isPlayableCharacter }
+    maps?.let {
         LazyColumn {
-            items(playableAgents) { agent ->
-                AgentItem(agent)
+            items(it) { weapon ->
+                MapItem(weapon)
             }
         }
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun AgentItem(agent: Agent){
+fun MapItem(map: Mapv){
     Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = agent.displayName)
-        Text(text = agent.description)
-        URLImage(modifier = Modifier.size(200.dp),url = agent.displayIcon, contentDescription = "Imagen de Agente")
-        Text(text = agent.role.displayName)
+        Text(text = map.displayName)
+        URLImageMap(modifier = Modifier.size(200.dp),url = map.splash, contentDescription = "Imagen de mapa")
+        Text(text = map.coordinates ?: "Coordenadas Confidenciales")
     }
 }
 
+
 @Composable
-fun URLImage(
+fun URLImageMap(
     modifier: Modifier = Modifier,
     url: String,
     colorFilter: ColorFilter? = null,

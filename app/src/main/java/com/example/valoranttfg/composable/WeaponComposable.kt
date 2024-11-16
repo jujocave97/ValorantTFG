@@ -3,6 +3,7 @@ package com.example.valoranttfg.composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,53 +24,50 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.valoranttfg.MainActivity
-import com.example.valoranttfg.model.Agent
-import com.example.valoranttfg.service.recopilarAgentes
+import com.example.valoranttfg.model.Weapon
+import com.example.valoranttfg.service.recopilarWeapons
 import kotlinx.coroutines.launch
 
 @Composable
-fun AgentListScreen(){
-    var agents by remember { mutableStateOf<List<Agent>?>(null)}
+fun WeaponListScreen(){
+    var weapons by remember { mutableStateOf<List<Weapon>?>(null) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        (context as MainActivity).lifecycleScope.launch{
-            agents = recopilarAgentes()
+        (context as MainActivity).lifecycleScope.launch {
+            weapons = recopilarWeapons()
         }
     }
 
-    agents?.let {
-        val playableAgents = it.filter { agent -> agent.isPlayableCharacter }
+    weapons?.let{
         LazyColumn {
-            items(playableAgents) { agent ->
-                AgentItem(agent)
+            items(it) { weapon ->
+                WeaponItem(weapon)
             }
         }
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun AgentItem(agent: Agent){
+fun WeaponItem( weapon: Weapon) {
     Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = agent.displayName)
-        Text(text = agent.description)
-        URLImage(modifier = Modifier.size(200.dp),url = agent.displayIcon, contentDescription = "Imagen de Agente")
-        Text(text = agent.role.displayName)
+        Text(text = weapon.displayName)
+        Text(text = weapon.category)
+        URLImageWeapon(modifier = Modifier.size(width = 500.dp, height = 200.dp),url = weapon.displayIcon, contentDescription = "Imagen de arma")
     }
 }
 
+
 @Composable
-fun URLImage(
+fun URLImageWeapon(
     modifier: Modifier = Modifier,
     url: String,
     colorFilter: ColorFilter? = null,
     birdDiscovered: Boolean = true,
-    contentScale: ContentScale = ContentScale.Crop,
+    contentScale: ContentScale = ContentScale.FillWidth,
     modifierColumn: Modifier = Modifier,
     elevation: Dp = 13.dp,
     contentDescription: String
@@ -99,7 +97,7 @@ fun URLImage(
             Image(
                 painter = painter,
                 contentDescription = contentDescription,
-                modifier = modifier.fillMaxHeight(),
+                modifier = modifier.fillMaxSize(),
                 contentScale = if (birdDiscovered) contentScale else ContentScale.FillHeight,
                 colorFilter = colorFilter
             )
