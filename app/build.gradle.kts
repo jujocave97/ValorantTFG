@@ -72,6 +72,10 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    implementation ("androidx.compose.material:material:1.5.0") // Para usar Material (en caso de Material2)
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0") // Herramientas de vista previa
+    implementation ("androidx.activity:activity-compose:1.7.0") // Si usas Activity con Compose
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
