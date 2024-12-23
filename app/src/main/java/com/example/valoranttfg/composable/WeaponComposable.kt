@@ -10,17 +10,28 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
@@ -30,9 +41,68 @@ import com.example.valoranttfg.MainActivity
 import com.example.valoranttfg.model.Weapon
 import com.example.valoranttfg.service.recopilarWeapons
 import kotlinx.coroutines.launch
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FullWeaponsScreen() {
+    var searchQuery by remember { mutableStateOf("") } // Estado del texto de búsqueda
+    var isSearching by remember { mutableStateOf(false) } // Estado para controlar si el buscador está activo
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    if (isSearching) {
+                        TextField(
+                            value = searchQuery,
+                            onValueChange = { searchQuery = it },
+                            placeholder = { Text("Buscar arma...") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else {
+                        Text(
+                            text = "Armas",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /* Acción de retroceso */ }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atrás")
+                    }
+                },
+                actions = {
+                    if (!isSearching) {
+                        IconButton(onClick = { isSearching = true }) {
+                            Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
+                        }
+                    } else {
+                        IconButton(onClick = {
+                            isSearching = false
+                            searchQuery = "" // Limpiar la búsqueda al cerrar
+                        }) {
+                            Icon(imageVector = Icons.Default.Close, contentDescription = "Cerrar búsqueda")
+                        }
+                    }
+                }
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+                WeaponListScreen(searchQuery = searchQuery)
+            }
+        }
+    )
+}
 
 @Composable
-fun WeaponListScreen(){
+fun WeaponListScreen(searchQuery: String) {
     var weapons by remember { mutableStateOf<List<Weapon>?>(null) }
     val context = LocalContext.current
 
@@ -42,9 +112,13 @@ fun WeaponListScreen(){
         }
     }
 
-    weapons?.let{
+    weapons?.let {
+        val filteredWeapons = it.filter { weapon ->
+            weapon.displayName.contains(searchQuery, ignoreCase = true)
+        }
+
         LazyColumn {
-            items(it) { weapon ->
+            items(filteredWeapons) { weapon ->
                 WeaponItem(weapon)
             }
         }
@@ -52,14 +126,17 @@ fun WeaponListScreen(){
 }
 
 @Composable
-fun WeaponItem( weapon: Weapon) {
+fun WeaponItem(weapon: Weapon) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(text = weapon.displayName)
         Text(text = weapon.category)
-        URLImageWeapon(modifier = Modifier.size(width = 500.dp, height = 200.dp),url = weapon.displayIcon, contentDescription = "Imagen de arma")
+        URLImageWeapon(
+            modifier = Modifier.size(width = 500.dp, height = 200.dp),
+            url = weapon.displayIcon,
+            contentDescription = "Imagen de arma"
+        )
     }
 }
-
 
 @Composable
 fun URLImageWeapon(
@@ -72,8 +149,7 @@ fun URLImageWeapon(
     elevation: Dp = 13.dp,
     contentDescription: String
 ) {
-    val painter =
-        rememberAsyncImagePainter(url)
+    val painter = rememberAsyncImagePainter(url)
     if (painter.state is AsyncImagePainter.State.Loading) {
         CircularProgressIndicator()
     }
@@ -86,7 +162,6 @@ fun URLImageWeapon(
             colors = CardDefaults.cardColors(
                 contentColor = MaterialTheme.colorScheme.primary,
                 containerColor = MaterialTheme.colorScheme.primary
-
             ),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = elevation

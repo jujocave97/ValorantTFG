@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.valoranttfg.composable.AgentListScreen
 import com.example.valoranttfg.composable.FullAgentsScreen
 import com.example.valoranttfg.composable.FullMapsScreen
+import com.example.valoranttfg.composable.FullWeaponsScreen
 import com.example.valoranttfg.composable.MapListScreen
 import com.example.valoranttfg.composable.WeaponListScreen
 import com.example.valoranttfg.ui.theme.ValorantTFGTheme
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ValorantTFGTheme {
-                FullMapsScreen()
+                FullWeaponsScreen()
                 }
             }
         }
