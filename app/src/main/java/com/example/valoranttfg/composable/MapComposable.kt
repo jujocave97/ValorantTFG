@@ -2,6 +2,7 @@ package com.example.valoranttfg.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -134,14 +135,17 @@ fun MapListScreen(searchQuery: String) {
 
 @Composable
 fun MapItem(map: Mapv) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = map.displayName)
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = map.displayName, style = MaterialTheme.typography.titleMedium)
+        Spacer(Modifier.padding(5.dp))
         URLImageMap(
-            modifier = Modifier.size(200.dp),
+            modifier = Modifier.size(250.dp),
             url = map.splash,
             contentDescription = "Imagen de mapa"
         )
+        Spacer(Modifier.padding(5.dp))
         Text(text = map.coordinates ?: "Coordenadas Confidenciales")
+        Spacer(Modifier.padding(15.dp))
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +47,7 @@ fun HomeScreen (navController: NavController) {
                 Button(
                     onClick = {navController.navigate("Agents_Screen")},
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                 ) {
                     Text("Agentes")
@@ -55,7 +56,7 @@ fun HomeScreen (navController: NavController) {
                 Button(
                     onClick = {navController.navigate("Weapons_Screen")},
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                 ) {
                     Text("Armas")
@@ -64,7 +65,7 @@ fun HomeScreen (navController: NavController) {
                 Button(
                     onClick = {navController.navigate("Maps_Screen")},
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                 ) {
                     Text("Mapas")
