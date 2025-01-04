@@ -121,17 +121,28 @@ fun AgentListScreen(searchQuery: String) {
     }
 
     agents?.let {
+        // Filtramos los agentes jugables y que coinciden con la búsqueda
         val playableAgents = it.filter { agent ->
             agent.isPlayableCharacter && agent.displayName.contains(searchQuery, ignoreCase = true)
         }
-        val sortedAgents = playableAgents.sortedBy { agent ->
-            agent.role.displayName // O si tienes una jerarquía de roles, puedes hacer algo como:
-            // rolePriority(agent.role) // Para ordenar de acuerdo con una jerarquía personalizada
-        }
+
+        // Agrupamos los agentes por rol
+        val groupedAgents = playableAgents.groupBy { agent -> agent.role.displayName }
+
+        // Ordenamos los roles si es necesario (puedes definir una jerarquía personalizada)
+        val sortedRoles = groupedAgents.keys.sorted()  // Si necesitas un orden específico para los roles, puedes usar `rolePriority` aquí
 
         LazyColumn {
-            items(sortedAgents) { agent ->
-                AgentItem(agent)
+            sortedRoles.forEach { role ->
+                // Mostramos el nombre del rol
+                item {
+                    Text(text = "$role ", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(start = 16.dp))
+                }
+
+                // Mostramos los agentes para cada rol
+                items(groupedAgents[role] ?: emptyList()) { agent ->
+                    AgentItem(agent)
+                }
             }
         }
     }
@@ -147,7 +158,7 @@ fun AgentItem(agent: Agent) {
         contentAlignment = Alignment.Center // Centra el contenido
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = agent.displayName)
+            Text(text = agent.displayName, style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.padding(5.dp))
             URLImage(modifier = Modifier.size(250.dp), url = agent.displayIcon, contentDescription = "Imagen de Agente")
         }

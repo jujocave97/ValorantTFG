@@ -1,7 +1,9 @@
 package com.example.valoranttfg.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -132,10 +134,11 @@ fun WeaponListScreen(searchQuery: String) {
         ) {
             weaponsGroupedByCategory.forEach { (category, weaponsInCategory) ->
                 // Encabezado de categoría
+
                 item {
                     Text(
-                        text = category,
-                        style = MaterialTheme.typography.titleMedium,
+                        text = category.substring(21,category.length),
+                        style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
@@ -150,14 +153,21 @@ fun WeaponListScreen(searchQuery: String) {
 
 @Composable
 fun WeaponItem(weapon: Weapon) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = weapon.displayName)
-        Text(text = weapon.category)
-        URLImageWeapon(
-            modifier = Modifier.size(width = 500.dp, height = 200.dp),
-            url = weapon.displayIcon,
-            contentDescription = "Imagen de arma"
-        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()  // Toma todo el tamaño disponible
+            .padding(16.dp), // Asegura algo de espacio alrededor
+        contentAlignment = Alignment.Center // Centra el contenido
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = weapon.displayName, style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.padding(5.dp))
+            URLImageWeapon(
+                modifier = Modifier.size(width = 500.dp, height = 200.dp),
+                url = weapon.displayIcon,
+                contentDescription = "Imagen de arma"
+            )
+    }
     }
 }
 
