@@ -114,13 +114,35 @@ fun WeaponListScreen(searchQuery: String) {
     }
 
     weapons?.let {
+        // Filtrar armas según la búsqueda
         val filteredWeapons = it.filter { weapon ->
             weapon.displayName.contains(searchQuery, ignoreCase = true)
         }
 
-        LazyColumn {
-            items(filteredWeapons) { weapon ->
-                WeaponItem(weapon)
+        // Agrupar por categoría y ordenar
+        val weaponsGroupedByCategory = filteredWeapons.groupBy { weapon -> weapon.category }
+            .mapValues { entry ->
+                entry.value.sortedBy { weapon -> weapon.displayName }
+            }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            weaponsGroupedByCategory.forEach { (category, weaponsInCategory) ->
+                // Encabezado de categoría
+                item {
+                    Text(
+                        text = category,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+                // Elementos de la categoría
+                items(weaponsInCategory) { weapon ->
+                    WeaponItem(weapon)
+                }
             }
         }
     }

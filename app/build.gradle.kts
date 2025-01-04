@@ -76,6 +76,8 @@ dependencies {
     implementation ("androidx.compose.material:material:1.5.0") // Para usar Material (en caso de Material2)
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0") // Herramientas de vista previa
     implementation ("androidx.activity:activity-compose:1.7.0") // Si usas Activity con Compose
+    implementation ("androidx.compose.runtime:runtime:1.4.3") //
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,7 +1,7 @@
 package com.example.valoranttfg.composable
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -77,7 +77,7 @@ fun FullAgentsScreen(navController: NavController) {
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("Home_Screen") }) {
+                    IconButton(onClick = { navController.navigate("Home_Screen")}) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atrás")
                     }
                 },
@@ -121,29 +121,17 @@ fun AgentListScreen(searchQuery: String) {
     }
 
     agents?.let {
-        // Agrupar los agentes por rol y ordenar por nombre
-        val agentsGroupedByRole = it.filter { agent -> agent.isPlayableCharacter }
-            .groupBy { agent -> agent.role.displayName ?: "Sin Rol" }
-            .mapValues { entry ->
-                entry.value.sortedBy { agent -> agent.displayName }
-            }
+        val playableAgents = it.filter { agent ->
+            agent.isPlayableCharacter && agent.displayName.contains(searchQuery, ignoreCase = true)
+        }
+        val sortedAgents = playableAgents.sortedBy { agent ->
+            agent.role.displayName // O si tienes una jerarquía de roles, puedes hacer algo como:
+            // rolePriority(agent.role) // Para ordenar de acuerdo con una jerarquía personalizada
+        }
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(16.dp)
-        ) {
-            agentsGroupedByRole.forEach { (roleName, agentsWithRole) ->
-                // Agregar encabezado para el rol
-                item {
-                    Text(
-                        text = roleName,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
-                }
-                // Agregar los agentes del rol
-                items(agentsWithRole) { agent ->
-                    AgentItem(agent)
-                }
+        LazyColumn {
+            items(sortedAgents) { agent ->
+                AgentItem(agent)
             }
         }
     }
@@ -151,23 +139,21 @@ fun AgentListScreen(searchQuery: String) {
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun AgentItem(agent: Agent){
-    Column(
+fun AgentItem(agent: Agent) {
+    Box(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize(), // Asegura que la columna ocupe todo el espacio disponible
-        verticalArrangement = Arrangement.Center, // Centra los elementos verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally // Centra los elementos horizontalmente
+            .fillMaxSize()  // Toma todo el tamaño disponible
+            .padding(16.dp), // Asegura algo de espacio alrededor
+        contentAlignment = Alignment.Center // Centra el contenido
     ) {
-        Text(text = agent.displayName)
-        Spacer(modifier = Modifier.height(8.dp))
-        URLImage(
-            modifier = Modifier.size(250.dp),
-            url = agent.displayIcon,
-            contentDescription = "Imagen de Agente"
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = agent.displayName)
+            Spacer(Modifier.padding(5.dp))
+            URLImage(modifier = Modifier.size(250.dp), url = agent.displayIcon, contentDescription = "Imagen de Agente")
+        }
     }
 }
+
 
 @Composable
 fun URLImage(
