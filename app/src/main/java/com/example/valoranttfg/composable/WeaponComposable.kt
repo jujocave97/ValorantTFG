@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.valoranttfg.MainActivity
@@ -43,7 +44,7 @@ import com.example.valoranttfg.service.recopilarWeapons
 import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FullWeaponsScreen() {
+fun FullWeaponsScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") } // Estado del texto de búsqueda
     var isSearching by remember { mutableStateOf(false) } // Estado para controlar si el buscador está activo
 
@@ -69,7 +70,7 @@ fun FullWeaponsScreen() {
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* Acción de retroceso */ }) {
+                    IconButton(onClick = { navController.navigate("Home_Screen") }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atrás")
                     }
                 },

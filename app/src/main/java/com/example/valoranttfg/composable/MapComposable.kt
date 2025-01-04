@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.valoranttfg.MainActivity
@@ -49,7 +50,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FullMapsScreen() {
+fun FullMapsScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") } // Estado del texto de búsqueda
     var isSearching by remember { mutableStateOf(false) } // Estado para controlar si el buscador está activo
 
@@ -75,7 +76,7 @@ fun FullMapsScreen() {
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* Acción de retroceso */ }) {
+                    IconButton(onClick = { navController.navigate("Home_Screen") }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atrás")
                     }
                 },

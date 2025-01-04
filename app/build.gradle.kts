@@ -71,6 +71,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.navigation:navigation-compose:2.8.5") // manejo de pantallas
 
     implementation ("androidx.compose.material:material:1.5.0") // Para usar Material (en caso de Material2)
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0") // Herramientas de vista previa

@@ -16,10 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen () {
+fun HomeScreen (navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -43,7 +44,7 @@ fun HomeScreen () {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {navController.navigate("Agents_Screen")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
@@ -52,7 +53,7 @@ fun HomeScreen () {
                 }
 
                 Button(
-                    onClick = {},
+                    onClick = {navController.navigate("Weapons_Screen")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
@@ -61,7 +62,7 @@ fun HomeScreen () {
                 }
 
                 Button(
-                    onClick = {},
+                    onClick = {navController.navigate("Maps_Screen")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
