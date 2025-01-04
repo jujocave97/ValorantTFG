@@ -1,8 +1,10 @@
 package com.example.valoranttfg.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -119,13 +121,29 @@ fun AgentListScreen(searchQuery: String) {
     }
 
     agents?.let {
-        val playableAgents = it.filter { agent ->
-            agent.isPlayableCharacter && agent.displayName.contains(searchQuery, ignoreCase = true)
-        }
+        // Agrupar los agentes por rol y ordenar por nombre
+        val agentsGroupedByRole = it.filter { agent -> agent.isPlayableCharacter }
+            .groupBy { agent -> agent.role.displayName ?: "Sin Rol" }
+            .mapValues { entry ->
+                entry.value.sortedBy { agent -> agent.displayName }
+            }
 
-        LazyColumn {
-            items(playableAgents) { agent ->
-                AgentItem(agent)
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(16.dp)
+        ) {
+            agentsGroupedByRole.forEach { (roleName, agentsWithRole) ->
+                // Agregar encabezado para el rol
+                item {
+                    Text(
+                        text = roleName,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+                // Agregar los agentes del rol
+                items(agentsWithRole) { agent ->
+                    AgentItem(agent)
+                }
             }
         }
     }
@@ -134,11 +152,20 @@ fun AgentListScreen(searchQuery: String) {
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun AgentItem(agent: Agent){
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(), // Asegura que la columna ocupe todo el espacio disponible
+        verticalArrangement = Arrangement.Center, // Centra los elementos verticalmente
+        horizontalAlignment = Alignment.CenterHorizontally // Centra los elementos horizontalmente
+    ) {
         Text(text = agent.displayName)
-        Text(text = agent.description)
-        URLImage(modifier = Modifier.size(200.dp),url = agent.displayIcon, contentDescription = "Imagen de Agente")
-        Text(text = agent.role.displayName)
+        Spacer(modifier = Modifier.height(8.dp))
+        URLImage(
+            modifier = Modifier.size(250.dp),
+            url = agent.displayIcon,
+            contentDescription = "Imagen de Agente"
+        )
     }
 }
 
