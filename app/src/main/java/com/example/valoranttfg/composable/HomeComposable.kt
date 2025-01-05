@@ -1,5 +1,6 @@
 package com.example.valoranttfg.composable
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,6 +50,7 @@ fun HomeScreen (navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
                 ) {
                     Text("Agentes")
                 }
@@ -58,6 +60,7 @@ fun HomeScreen (navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
                 ) {
                     Text("Armas")
                 }
@@ -67,6 +70,7 @@ fun HomeScreen (navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
                 ) {
                     Text("Mapas")
                 }

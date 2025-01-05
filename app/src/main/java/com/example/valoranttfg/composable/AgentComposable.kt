@@ -1,17 +1,16 @@
 package com.example.valoranttfg.composable
 
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,12 +40,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.valoranttfg.MainActivity
 import com.example.valoranttfg.model.Agent
 import com.example.valoranttfg.service.recopilarAgentes
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,14 +102,14 @@ fun FullAgentsScreen(navController: NavController) {
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                AgentListScreen(searchQuery = searchQuery)
+                AgentListScreen(searchQuery = searchQuery, navController= navController)
             }
         }
     )
 }
 
 @Composable
-fun AgentListScreen(searchQuery: String) {
+fun AgentListScreen(searchQuery: String, navController: NavController) {
     var agents by remember { mutableStateOf<List<Agent>?>(null) }
     val context = LocalContext.current
 
@@ -141,21 +140,24 @@ fun AgentListScreen(searchQuery: String) {
 
                 // Mostramos los agentes para cada rol
                 items(groupedAgents[role] ?: emptyList()) { agent ->
-                    AgentItem(agent)
+                    AgentItem(agent, navController = navController)
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun AgentItem(agent: Agent) {
+fun AgentItem(agent: Agent, navController: NavController) {
+    val gson = Gson()
     Box(
         modifier = Modifier
             .fillMaxSize()  // Toma todo el tamaño disponible
-            .padding(16.dp), // Asegura algo de espacio alrededor
-        contentAlignment = Alignment.Center // Centra el contenido
+            .padding(16.dp)
+            .clickable {
+                val agentJson = Uri.encode(gson.toJson(agent)) // Codificar JSON
+                navController.navigate("Agent_Selected_Screen/$agentJson") }, // Asegura algo de espacio alrededor
+        contentAlignment = Alignment.Center, // Centra el contenido
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = agent.displayName, style = MaterialTheme.typography.titleMedium)
@@ -190,7 +192,7 @@ fun URLImage(
         Card(
             colors = CardDefaults.cardColors(
                 contentColor = MaterialTheme.colorScheme.primary,
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primaryContainer
 
             ),
             elevation = CardDefaults.cardElevation(

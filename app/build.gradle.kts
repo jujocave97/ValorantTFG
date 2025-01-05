@@ -77,6 +77,9 @@ dependencies {
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0") // Herramientas de vista previa
     implementation ("androidx.activity:activity-compose:1.7.0") // Si usas Activity con Compose
     implementation ("androidx.compose.runtime:runtime:1.4.3") //
+    implementation ("androidx.compose.ui:ui-text-google-fonts:1.2.0") // google fonts
+
+
 
 
     testImplementation(libs.junit)
