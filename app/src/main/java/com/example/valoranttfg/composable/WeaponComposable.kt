@@ -1,10 +1,11 @@
 package com.example.valoranttfg.composable
 
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,6 +44,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.valoranttfg.MainActivity
 import com.example.valoranttfg.model.Weapon
 import com.example.valoranttfg.service.recopilarWeapons
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,14 +100,14 @@ fun FullWeaponsScreen(navController: NavController) {
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                WeaponListScreen(searchQuery = searchQuery)
+                WeaponListScreen(searchQuery = searchQuery, navController= navController)
             }
         }
     )
 }
 
 @Composable
-fun WeaponListScreen(searchQuery: String) {
+fun WeaponListScreen(searchQuery: String, navController: NavController) {
     var weapons by remember { mutableStateOf<List<Weapon>?>(null) }
     val context = LocalContext.current
 
@@ -144,7 +146,7 @@ fun WeaponListScreen(searchQuery: String) {
                 }
                 // Elementos de la categoría
                 items(weaponsInCategory) { weapon ->
-                    WeaponItem(weapon)
+                    WeaponItem(weapon, navController = navController )
                 }
             }
         }
@@ -152,11 +154,15 @@ fun WeaponListScreen(searchQuery: String) {
 }
 
 @Composable
-fun WeaponItem(weapon: Weapon) {
+fun WeaponItem(weapon: Weapon, navController: NavController) {
+    val gson = Gson()
     Box(
         modifier = Modifier
             .fillMaxSize()  // Toma todo el tamaño disponible
-            .padding(16.dp), // Asegura algo de espacio alrededor
+            .padding(16.dp)
+            .clickable {
+                val weaponJson = Uri.encode(gson.toJson(weapon)) // Codificar JSON
+                navController.navigate("Weapon_Selected_Screen/$weaponJson") }, // Asegura algo de espacio alrededor
         contentAlignment = Alignment.Center // Centra el contenido
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -174,7 +180,7 @@ fun WeaponItem(weapon: Weapon) {
 @Composable
 fun URLImageWeapon(
     modifier: Modifier = Modifier,
-    url: String,
+    url: String?,
     colorFilter: ColorFilter? = null,
     birdDiscovered: Boolean = true,
     contentScale: ContentScale = ContentScale.FillWidth,

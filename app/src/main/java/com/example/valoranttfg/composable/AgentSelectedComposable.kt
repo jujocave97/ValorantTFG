@@ -1,12 +1,12 @@
 package com.example.valoranttfg.composable
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,7 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -57,7 +56,8 @@ fun AgentSelected(agent: Agent, navController: NavController){
             horizontalAlignment = Alignment.CenterHorizontally // Centra horizontalmente todo el contenido
         ) {
             URLImage(
-                modifier = Modifier.size(250.dp),
+                modifier = Modifier.size(250.dp)
+                    .background(color = MaterialTheme.colorScheme.background),
                 url = agent.fullPortrait,
                 contentDescription = "Imagen de ${agent.displayName}"
             )
@@ -112,7 +112,8 @@ fun Habilidad(ability: Ability){
             )
             Spacer(Modifier.padding(3.dp))
             URLImage(
-                modifier = Modifier.size(175.dp),
+                modifier = Modifier.size(175.dp)
+                    .background(color = MaterialTheme.colorScheme.background),
                 url = ability.displayIcon,
                 contentDescription = "Imagen de ${ability.displayName}"
             )
