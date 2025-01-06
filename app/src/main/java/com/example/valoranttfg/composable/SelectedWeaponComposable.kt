@@ -1,6 +1,7 @@
 package com.example.valoranttfg.composable
 
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,10 +35,12 @@ import com.example.valoranttfg.model.ShopData
 import com.example.valoranttfg.model.Skin
 import com.example.valoranttfg.model.Weapon
 import com.example.valoranttfg.model.WeaponStats
+import com.google.gson.Gson
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeaponSelected(weapon: Weapon, navController: NavController){
+    val gson = Gson()
     Column(modifier = Modifier.fillMaxSize()) {
         // Título y botón de regreso
         TopAppBar(
@@ -82,22 +86,14 @@ fun WeaponSelected(weapon: Weapon, navController: NavController){
                 textAlign = TextAlign.Center
             )
             ShopData(shopData = weapon?.shopData)
-            Text(
-                text = "Skins",
-                style = MaterialTheme.typography.titleLarge,
+            Spacer(Modifier.padding(10.dp))
+            Button(
+                onClick = { val weaponJson = Uri.encode(gson.toJson(weapon)) // Codificar JSON
+                    navController.navigate("Skins_Collection_Screen/$weaponJson") },
                 modifier = Modifier
-                    .padding(top = 10.dp), // Espacio superior
-                textAlign = TextAlign.Center
-            )
-            // for each de skins  || convertir en un boton que lleve a otra pantalla con todas las skins
-            weapon.skins?.let {
-                val skin = it
-
-                LazyColumn {
-                    items(skin) { map ->
-                        Skin(map)
-                    }
-                }
+                    .padding(16.dp) // Espaciado alrededor del botón
+            ) {
+                Text(text = "Skins")
             }
         }
 
@@ -162,35 +158,6 @@ fun ShopData(shopData: ShopData?){
                 text = "Categoría: "+shopData?.category,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-@Composable
-fun Skin(skin: Skin){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth() // Asegura que el Box ocupe todo el ancho disponible
-            .padding(16.dp), // Puedes ajustar el padding general según lo necesites
-        contentAlignment = Alignment.Center // Centra todo el contenido dentro del Box
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally, // Centra todo en la columna
-            verticalArrangement = Arrangement.Center, // Alinea verticalmente en el centro
-            modifier = Modifier.fillMaxWidth() // Hace que la columna ocupe todo el ancho
-        ) {
-            Text(
-                text = skin.displayName,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center
-            )
-            Spacer(Modifier.padding(5.dp))
-            URLImageWeapon(
-                modifier = Modifier.size(width = 500.dp, height = 200.dp)
-                    .background(color = MaterialTheme.colorScheme.background),
-                url = skin.displayIcon,
-                contentDescription = "Imagen de ${skin.displayName}"
             )
         }
     }
