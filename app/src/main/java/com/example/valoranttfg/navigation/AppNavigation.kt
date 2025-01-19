@@ -10,6 +10,7 @@ import com.example.valoranttfg.composable.FullMapsScreen
 import com.example.valoranttfg.composable.FullWeaponsScreen
 import com.example.valoranttfg.composable.HabilidadesAgente
 import com.example.valoranttfg.composable.HomeScreen
+import com.example.valoranttfg.composable.MatchScreen
 import com.example.valoranttfg.composable.RegionTeams
 import com.example.valoranttfg.composable.SkinsCollection
 import com.example.valoranttfg.composable.TeamsComposable
@@ -39,6 +40,9 @@ fun AppNavigation() {
         }
         composable("Teams_Screen"){
             TeamsComposable(navController)
+        }
+        composable("Match_Screen"){
+            MatchScreen(navController)
         }
         composable("Agent_Selected_Screen/{agentJson}"){ backStackEntry ->
             val agentJson = backStackEntry.arguments?.getString("agentJson")

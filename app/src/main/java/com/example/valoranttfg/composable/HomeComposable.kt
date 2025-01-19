@@ -89,6 +89,15 @@ fun HomeScreen (navController: NavController) {
                 ) {
                     Text("Equipos")
                 }
+                Button(
+                    onClick = {navController.navigate("Match_Screen")},
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Games")
+                }
             }
         }
     )
