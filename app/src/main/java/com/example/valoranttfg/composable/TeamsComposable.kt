@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,16 +33,21 @@ fun TeamsComposable(navController: NavController){
                 title = {
                     Text(
                         text = "Equipos",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().padding(0.dp,0.dp,40.dp,0.dp)
                     )
+                },navigationIcon = {
+                    IconButton(onClick = { navController.navigate("Home_Screen") }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atrás")
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary, // Color de fondo
                     titleContentColor = MaterialTheme.colorScheme.onPrimary, // Color del título
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary // Color del icono de navegación
                 )
+
             )
         },
         content = { paddingValues ->
