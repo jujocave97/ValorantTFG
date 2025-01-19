@@ -8,6 +8,7 @@ import com.example.valoranttfg.composable.AgentSelected
 import com.example.valoranttfg.composable.FullAgentsScreen
 import com.example.valoranttfg.composable.FullMapsScreen
 import com.example.valoranttfg.composable.FullWeaponsScreen
+import com.example.valoranttfg.composable.HabilidadesAgente
 import com.example.valoranttfg.composable.HomeScreen
 import com.example.valoranttfg.composable.SkinsCollection
 import com.example.valoranttfg.composable.WeaponSelected
@@ -38,6 +39,11 @@ fun AppNavigation() {
             val agent = gson.fromJson(agentJson, Agent::class.java)
             AgentSelected(agent = agent, navController)
         }
+        composable("Skills_Agent_Screen/{agentJson}"){ backStackEntry ->
+            val agentJson = backStackEntry.arguments?.getString("agentJson")
+            val agent = gson.fromJson(agentJson, Agent::class.java)
+            HabilidadesAgente(agent = agent, navController)
+        }
         composable("Weapon_Selected_Screen/{weaponJson}"){ backStackEntry ->
             val weaponJson = backStackEntry.arguments?.getString("weaponJson")
             val weapon = gson.fromJson(weaponJson, Weapon::class.java)
@@ -48,5 +54,6 @@ fun AppNavigation() {
             val weapon = gson.fromJson(weaponJson, Weapon::class.java)
             SkinsCollection(weapon = weapon, navController)
         }
+
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +55,12 @@ fun WeaponSelected(weapon: Weapon, navController: NavController){
                     Text(text = weapon.displayName,
                         style = MaterialTheme.typography.titleLarge) // Centrado del título
                 }
-            }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary, // Color de fondo
+                titleContentColor = MaterialTheme.colorScheme.onPrimary, // Color del título
+                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary // Color del icono de navegación
+            )
         )
         // Contenido principal debajo del TopAppBar
         Column(

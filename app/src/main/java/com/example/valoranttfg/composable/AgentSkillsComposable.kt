@@ -27,12 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.valoranttfg.model.Skin
-import com.example.valoranttfg.model.Weapon
+import com.example.valoranttfg.model.Ability
+import com.example.valoranttfg.model.Agent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SkinsCollection(weapon: Weapon, navController: NavController){
+fun HabilidadesAgente(agent: Agent, navController: NavController){
     Column(modifier = Modifier.fillMaxSize()) {
         // Título y botón de regreso
         TopAppBar(
@@ -47,7 +47,7 @@ fun SkinsCollection(weapon: Weapon, navController: NavController){
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = weapon.displayName,
+                        text = agent.displayName,
                         style = MaterialTheme.typography.titleLarge
                     ) // Centrado del título
                 }
@@ -58,12 +58,12 @@ fun SkinsCollection(weapon: Weapon, navController: NavController){
                 navigationIconContentColor = MaterialTheme.colorScheme.onPrimary // Color del icono de navegación
             )
         )
-        weapon.skins?.let {
-            val skin = it
+        agent.abilities?.let {  // mostrar las habilidades del agente recorriendo el array de habilidades
+            val habilidades = it
 
             LazyColumn {
-                items(skin) { map ->
-                    Skin(map)
+                items(habilidades) { map ->
+                    Habilidad(map)
                 }
             }
         }
@@ -71,7 +71,7 @@ fun SkinsCollection(weapon: Weapon, navController: NavController){
 }
 
 @Composable
-fun Skin(skin: Skin){
+fun Habilidad(ability: Ability){
     Box(
         modifier = Modifier
             .fillMaxWidth() // Asegura que el Box ocupe todo el ancho disponible
@@ -84,17 +84,27 @@ fun Skin(skin: Skin){
             modifier = Modifier.fillMaxWidth() // Hace que la columna ocupe todo el ancho
         ) {
             Text(
-                text = skin.displayName,
-                style = MaterialTheme.typography.titleMedium,
+                text = ability.displayName,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(top = 16.dp), // Espacio superior
                 textAlign = TextAlign.Center
             )
-            Spacer(Modifier.padding(5.dp))
-            URLImageWeapon(
-                modifier = Modifier.size(width = 500.dp, height = 200.dp)
-                    .background(color = MaterialTheme.colorScheme.background),
-                url = skin.displayIcon,
-                contentDescription = "Imagen de ${skin.displayName}"
+            Spacer(Modifier.padding(3.dp))
+            URLImage(
+                modifier = Modifier.size(175.dp)
+                    .background(color = MaterialTheme.colorScheme.onBackground),
+                url = ability.displayIcon,
+                contentDescription = "Imagen de ${ability.displayName}"
             )
+            Spacer(Modifier.padding(5.dp))
+            Text(
+                text = ability.description,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 16.dp), // Espacio superior
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.padding(10.dp))
+
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +34,12 @@ fun HomeScreen (navController: NavController) {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary, // Color de fondo
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary, // Color del título
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary // Color del icono de navegación
+                )
             )
         },
         content = { paddingValues ->
