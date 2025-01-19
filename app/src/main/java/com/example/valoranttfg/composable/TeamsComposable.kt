@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -23,13 +22,13 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen (navController: NavController) {
+fun TeamsComposable(navController: NavController){
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Inicio",
+                        text = "Equipos",
                         style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -52,46 +51,62 @@ fun HomeScreen (navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = {navController.navigate("Agents_Screen")},
+                    onClick = {navController.navigate("Region_Teams_Screen/eu")},
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                         .background(color = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Agentes")
+                    Text("Europa")
                 }
 
                 Button(
-                    onClick = {navController.navigate("Weapons_Screen")},
+                    onClick = {navController.navigate("Region_Teams_Screen/na")},
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                         .background(color = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Armas")
+                    Text("America del Norte")
                 }
 
                 Button(
-                    onClick = {navController.navigate("Maps_Screen")},
+                    onClick = {navController.navigate("Region_Teams_Screen/br")},
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                         .background(color = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Mapas")
+                    Text("Brasil")
                 }
                 Button(
-                    onClick = {navController.navigate("Teams_Screen")},
+                    onClick = {navController.navigate("Region_Teams_Screen/ch")},
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 8.dp)
                         .background(color = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Equipos")
+                    Text("China")
+                }
+                Button(
+                    onClick = {navController.navigate("Region_Teams_Screen/jp")},
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Japón")
+                }
+                Button(
+                    onClick = {navController.navigate("Region_Teams_Screen/las")},
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Latinoamérica")
                 }
             }
         }
     )
 }
-
-

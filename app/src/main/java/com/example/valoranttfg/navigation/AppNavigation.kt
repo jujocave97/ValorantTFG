@@ -10,9 +10,12 @@ import com.example.valoranttfg.composable.FullMapsScreen
 import com.example.valoranttfg.composable.FullWeaponsScreen
 import com.example.valoranttfg.composable.HabilidadesAgente
 import com.example.valoranttfg.composable.HomeScreen
+import com.example.valoranttfg.composable.RegionTeams
 import com.example.valoranttfg.composable.SkinsCollection
+import com.example.valoranttfg.composable.TeamsComposable
 import com.example.valoranttfg.composable.WeaponSelected
 import com.example.valoranttfg.model.Agent
+import com.example.valoranttfg.model.Team
 import com.example.valoranttfg.model.Weapon
 import com.google.gson.Gson
 
@@ -34,6 +37,9 @@ fun AppNavigation() {
         composable("Maps_Screen"){
             FullMapsScreen(navController)
         }
+        composable("Teams_Screen"){
+            TeamsComposable(navController)
+        }
         composable("Agent_Selected_Screen/{agentJson}"){ backStackEntry ->
             val agentJson = backStackEntry.arguments?.getString("agentJson")
             val agent = gson.fromJson(agentJson, Agent::class.java)
@@ -53,6 +59,10 @@ fun AppNavigation() {
             val weaponJson = backStackEntry.arguments?.getString("weaponJson")
             val weapon = gson.fromJson(weaponJson, Weapon::class.java)
             SkinsCollection(weapon = weapon, navController)
+        }
+        composable("Region_Teams_Screen/{region}"){ backStackEntry ->
+            val region = backStackEntry.arguments?.getString("region") ?: ""
+            RegionTeams(navController,region = region)
         }
 
     }
