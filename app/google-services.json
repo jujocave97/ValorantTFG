@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069580176515",
+    "project_id": "valorant-jjcv",
+    "storage_bucket": "valorant-jjcv.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069580176515:android:526396c4473a15efaedfb6",
+        "android_client_info": {
+          "package_name": "com.example.valoranttfg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7GUXKe7CRqP9WcYnKwYD_h09Hs8-LcUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
