@@ -24,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -42,6 +44,8 @@ import com.google.gson.Gson
 @Composable
 fun AgentSelected(agent: Agent, navController: NavController, agentViewModel: AgentViewModel){
     val gson = Gson()
+    val isAgentInFavorites by agentViewModel.isAgentInFavorites(agent.uuid).observeAsState(false)
+
     Column(modifier = Modifier.fillMaxSize()) {
         // Título y botón de regreso
         TopAppBar(
@@ -103,11 +107,11 @@ fun AgentSelected(agent: Agent, navController: NavController, agentViewModel: Ag
                 onClick = { val agentJson = Uri.encode(gson.toJson(agent)) // Codificar JSON
                     navController.navigate("Skills_Agent_Screen/$agentJson") },
                 modifier = Modifier
-                    .padding(16.dp) // Espaciado alrededor del botón
+                    .padding(8.dp) // Espaciado alrededor del botón
             ) {
                 Text(text = "Habilidades")
             }
-            Spacer(Modifier.padding(5.dp))
+
             Button(
                 onClick = {
                     val agente = AgentEntity(
@@ -120,8 +124,9 @@ fun AgentSelected(agent: Agent, navController: NavController, agentViewModel: Ag
                     )
                     agentViewModel.insertAgent(agente)
                 },
+                enabled = !isAgentInFavorites,
                 modifier = Modifier
-                    .padding(16.dp) // Espaciado alrededor del botón
+                    .padding(8.dp) // Espaciado alrededor del botón
             ) {
                 Text(text = "Guardar en Favoritos")
             }

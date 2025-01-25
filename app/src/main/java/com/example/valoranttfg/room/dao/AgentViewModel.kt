@@ -2,6 +2,7 @@ package com.example.valoranttfg.room.dao
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.valoranttfg.room.AppDatabase
@@ -29,6 +30,13 @@ class AgentViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteAgent(uuid: String) {
         viewModelScope.launch(Dispatchers.IO) {
             agentDao.deleteAgent(uuid)  // Eliminamos el agente con el uuid
+        }
+    }
+
+    fun isAgentInFavorites(uuid: String): LiveData<Boolean> {
+        return liveData(Dispatchers.IO) {
+            val agent = agentDao.getAgent(uuid)
+            emit(agent != null) // Si el agente existe, emite 'true', si no, 'false'
         }
     }
 }

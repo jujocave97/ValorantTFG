@@ -53,6 +53,16 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegionTeams(navController: NavController, region: String) {
+    val regionName = when (region) {
+        "eu" -> "Europa"
+        "na" -> "Norteamérica"
+        "br" -> "Brasil"
+        "las" -> "Latinoamérica"
+        "ch" -> "China"
+        "jp" -> "Japón"
+        else -> "Resto del Mundo"
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         // Título y botón de regreso
         TopAppBar(
@@ -67,7 +77,7 @@ fun RegionTeams(navController: NavController, region: String) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = region,
+                        text = regionName,
                         style = MaterialTheme.typography.titleLarge
                     ) // Centrado del título
                 }
@@ -139,7 +149,7 @@ fun TeamItem(team: Team) {
             URLImage(
                 modifier = Modifier
                     .size(200.dp)
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(MaterialTheme.colorScheme.primary),
                 url = team.img,
                 contentDescription = "Logo del equipo ${team.name}"
             )

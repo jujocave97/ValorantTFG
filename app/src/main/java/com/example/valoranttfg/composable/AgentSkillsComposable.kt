@@ -92,7 +92,7 @@ fun Habilidad(ability: Ability){
             Spacer(Modifier.padding(3.dp))
             URLImage(
                 modifier = Modifier.size(175.dp)
-                    .background(color = MaterialTheme.colorScheme.onBackground),
+                    .background(color = MaterialTheme.colorScheme.primary),
                 url = ability.displayIcon,
                 contentDescription = "Imagen de ${ability.displayName}"
             )

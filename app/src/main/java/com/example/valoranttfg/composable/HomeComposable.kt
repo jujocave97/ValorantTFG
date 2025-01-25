@@ -113,7 +113,6 @@ fun HomeScreen (navController: NavController) {
                     Text("Favoritos")
                 }
 
-                // Agents_DB_Screen
             }
         }
     )
