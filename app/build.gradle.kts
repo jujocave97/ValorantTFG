@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services")
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    //alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -80,14 +81,14 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime:1.4.3") //
     implementation ("androidx.compose.ui:ui-text-google-fonts:1.2.0") // google fonts
 
-    // firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
-    implementation("com.google.firebase:firebase-analytics")
-
-
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
+    implementation("androidx.room:room-runtime:2.5.1")
+    implementation(libs.androidx.runtime.livedata)
+    ksp("androidx.room:room-compiler:2.5.1") // Reemplaza kapt por ksp           // Procesador de anotaciones
+    implementation(libs.androidx.room.ktx)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -97,3 +98,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+
+

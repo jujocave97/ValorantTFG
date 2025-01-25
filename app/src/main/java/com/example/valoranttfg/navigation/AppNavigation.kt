@@ -1,10 +1,12 @@
 package com.example.valoranttfg.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.valoranttfg.composable.AgentSelected
+import com.example.valoranttfg.composable.AgentsDBScreen
 import com.example.valoranttfg.composable.FullAgentsScreen
 import com.example.valoranttfg.composable.FullMapsScreen
 import com.example.valoranttfg.composable.FullWeaponsScreen
@@ -18,12 +20,14 @@ import com.example.valoranttfg.composable.WeaponSelected
 import com.example.valoranttfg.model.Agent
 import com.example.valoranttfg.model.Team
 import com.example.valoranttfg.model.Weapon
+import com.example.valoranttfg.room.dao.AgentViewModel
 import com.google.gson.Gson
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     val gson = Gson()
+    val agentViewModel: AgentViewModel = viewModel()
 
     NavHost(navController= navController, startDestination = "Home_Screen"){
         composable("Home_Screen"){
@@ -44,10 +48,13 @@ fun AppNavigation() {
         composable("Match_Screen"){
             MatchScreen(navController)
         }
+        composable("Agents_DB_Screen"){
+            AgentsDBScreen(agentViewModel, navController)
+        }
         composable("Agent_Selected_Screen/{agentJson}"){ backStackEntry ->
             val agentJson = backStackEntry.arguments?.getString("agentJson")
             val agent = gson.fromJson(agentJson, Agent::class.java)
-            AgentSelected(agent = agent, navController)
+            AgentSelected(agent = agent, navController, agentViewModel)
         }
         composable("Skills_Agent_Screen/{agentJson}"){ backStackEntry ->
             val agentJson = backStackEntry.arguments?.getString("agentJson")

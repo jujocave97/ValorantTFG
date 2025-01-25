@@ -28,14 +28,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.room.Room
 import com.example.valoranttfg.model.Ability
 import com.example.valoranttfg.model.Agent
+import com.example.valoranttfg.room.AppDatabase
+import com.example.valoranttfg.room.dao.AgentViewModel
+import com.example.valoranttfg.room.entities.AgentEntity
 import com.google.gson.Gson
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgentSelected(agent: Agent, navController: NavController){
+fun AgentSelected(agent: Agent, navController: NavController, agentViewModel: AgentViewModel){
     val gson = Gson()
     Column(modifier = Modifier.fillMaxSize()) {
         // Título y botón de regreso
@@ -101,6 +106,24 @@ fun AgentSelected(agent: Agent, navController: NavController){
                     .padding(16.dp) // Espaciado alrededor del botón
             ) {
                 Text(text = "Habilidades")
+            }
+            Spacer(Modifier.padding(5.dp))
+            Button(
+                onClick = {
+                    val agente = AgentEntity(
+                        uuid = agent.uuid,
+                        displayName = agent.displayName,
+                        description = agent.description,
+                        fullPortrait = agent.fullPortrait,
+                        displayIcon = agent.displayIcon,
+                        roleUuid = agent.role.uuid
+                    )
+                    agentViewModel.insertAgent(agente)
+                },
+                modifier = Modifier
+                    .padding(16.dp) // Espaciado alrededor del botón
+            ) {
+                Text(text = "Guardar en Favoritos")
             }
 
         }

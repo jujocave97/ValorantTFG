@@ -21,6 +21,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+import android.content.Context
+import androidx.room.Room
+import com.example.valoranttfg.room.AppDatabase
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen (navController: NavController) {
@@ -98,6 +103,17 @@ fun HomeScreen (navController: NavController) {
                 ) {
                     Text("Games")
                 }
+                Button(
+                    onClick = {navController.navigate("Agents_DB_Screen")},
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 8.dp)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Favoritos")
+                }
+
+                // Agents_DB_Screen
             }
         }
     )
