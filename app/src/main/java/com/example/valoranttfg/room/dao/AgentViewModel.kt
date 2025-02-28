@@ -15,10 +15,8 @@ class AgentViewModel(application: Application) : AndroidViewModel(application) {
     private val agentDao: AgentDao = AppDatabase.getDatabase(application).agentDao()
 
     // Función para obtener todos los agentes
-    fun getAllAgents() = liveData(Dispatchers.IO) {
-        val agents = agentDao.getAllAgents() // Obtener la lista de agentes desde la base de datos
-        emit(agents)  // Emitimos la lista de agentes
-    }
+    fun getAllAgents(): LiveData<List<AgentEntity>> = agentDao.getAllAgents()
+
 
     // Función para insertar un nuevo agente
     fun insertAgent(agent: AgentEntity) {

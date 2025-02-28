@@ -47,7 +47,7 @@ import com.example.valoranttfg.composable.AgentEntityItem as AgentEntityItem
 @Composable
 fun AgentsDBScreen(agentViewModel: AgentViewModel, navController: NavController) {
     // Observamos la lista de agentes desde el ViewModel
-    val agents by agentViewModel.getAllAgents().observeAsState(emptyList())
+    val agents: List<AgentEntity> by agentViewModel.getAllAgents().observeAsState(emptyList())
 
     Scaffold(
         topBar = {
