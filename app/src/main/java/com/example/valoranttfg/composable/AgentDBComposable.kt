@@ -101,6 +101,7 @@ fun AgentsDBScreen(agentViewModel: AgentViewModel, navController: NavController)
 @Composable
 fun AgentEntityItem(agent: AgentEntity, agentViewModel: AgentViewModel) {
     val gson = Gson()
+
     Box(
         modifier = Modifier
             .fillMaxSize()  // Toma todo el tamaño disponible

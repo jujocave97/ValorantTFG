@@ -25,6 +25,7 @@ class AgentViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
     fun deleteAgent(uuid: String) {
         viewModelScope.launch(Dispatchers.IO) {
             agentDao.deleteAgent(uuid)  // Eliminamos el agente con el uuid

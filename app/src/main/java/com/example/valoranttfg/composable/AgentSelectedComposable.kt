@@ -123,12 +123,13 @@ fun AgentSelected(agent: Agent, navController: NavController, agentViewModel: Ag
                         roleUuid = agent.role.uuid
                     )
                     agentViewModel.insertAgent(agente)
+                    // 🔹 Regresar a la pantalla anterior después de guardar
+                    navController.popBackStack()
                 },
-                enabled = !isAgentInFavorites,
-                modifier = Modifier
-                    .padding(8.dp) // Espaciado alrededor del botón
+                enabled = !isAgentInFavorites, // 🔹 Deshabilita el botón si ya está en favoritos
+                modifier = Modifier.padding(8.dp)
             ) {
-                Text(text = "Guardar en Favoritos")
+                Text(text = if (isAgentInFavorites) "Agente Guardado" else "Guardar en Favoritos") // 🔹 Cambia el texto dinámicamente
             }
 
         }
